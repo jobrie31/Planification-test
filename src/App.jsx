@@ -4,6 +4,7 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { APP_ID, auth, db } from "./firebase";
 import PagePlanification from "./pages/PagePlanification";
+import PagePaiement from "./pages/PagePaiement";
 import PageLogin from "./pages/PageLogin";
 import PageReglages from "./pages/PageReglages";
 import "./App.css";
@@ -75,8 +76,7 @@ function App() {
     (profilApp?.actif === true && profilApp?.apps?.[APP_ID] === true);
 
   const isAdmin =
-    isMasterAdmin ||
-    (aAccesPlanification && profilApp?.role === "admin");
+    isMasterAdmin || (aAccesPlanification && profilApp?.role === "admin");
 
   if (chargementAuth || chargementAcces) {
     return (
@@ -125,6 +125,10 @@ function App() {
             Planification
           </button>
 
+          <button type="button" onClick={() => setPage("paiement")}>
+            Paiement
+          </button>
+
           {isAdmin && (
             <button type="button" onClick={() => setPage("reglages")}>
               Réglages
@@ -138,6 +142,8 @@ function App() {
       </header>
 
       {page === "planification" && <PagePlanification />}
+
+      {page === "paiement" && <PagePaiement />}
 
       {page === "reglages" && isAdmin && (
         <PageReglages onRetour={() => setPage("planification")} />
